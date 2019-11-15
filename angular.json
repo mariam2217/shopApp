@@ -28,7 +28,7 @@
               "frontend/assets"
             ],
             "styles": [
-              "frontend/styles.styl"
+              "frontend/styles/main.styl"
             ],
             "scripts": []
           },
@@ -93,7 +93,7 @@
               "frontend/assets"
             ],
             "styles": [
-              "frontend/styles.styl"
+              "frontend/styles/main.styl"
             ],
             "scripts": []
           }
