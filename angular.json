@@ -17,10 +17,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/shop",
+            "outputPath": "public",
             "index": "frontend/index.html",
             "main": "frontend/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": "frontend/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": false,
             "assets": [

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { Routing } from './routing';
 import { AppComponent } from './components/app.component';
@@ -9,6 +10,7 @@ import { AppComponent } from './components/app.component';
     AppComponent
   ],
   imports: [
+    NgbModule,
     BrowserModule,
     Routing
   ],
