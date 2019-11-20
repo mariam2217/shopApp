@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {Registration} from  './registration';
+
 
 
 const routes: Routes = [
-  {
-    path: 'signup',
-    loadChildren: () => import('./components/registration/module')
-      .then(module=> module.RegistrationModule)
-  }
+    {
+        path: '',
+        component: Registration,
+
+    }
+
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class Routing { }

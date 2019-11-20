@@ -44,7 +44,6 @@
             /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
             var AppComponent = /** @class */ (function () {
                 function AppComponent() {
-                    this.images = [944, 1011, 984].map(function (n) { return "https://picsum.photos/id/" + n + "/900/500"; });
                 }
                 return AppComponent;
             }());
@@ -80,7 +79,7 @@
             Module = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
                 Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
                     declarations: [
-                        _components_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]
+                        _components_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
                     ],
                     imports: [
                         _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModule"],
@@ -105,7 +104,13 @@
             /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
             /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
             /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
-            var routes = [];
+            var routes = [
+                {
+                    path: 'signup',
+                    loadChildren: function () { return __webpack_require__.e(/*! import() | components-registration-module */ "components-registration-module").then(__webpack_require__.bind(null, /*! ./components/registration/module */ "./frontend/app/components/registration/module.ts"))
+                        .then(function (module) { return module; }); }
+                }
+            ];
             var Routing = /** @class */ (function () {
                 function Routing() {
                 }
@@ -173,7 +178,7 @@
         /***/ (function (module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony default export */ __webpack_exports__["default"] = ("<router-outlet>\n   <ngb-carousel *ngIf=\"images\">\n  <ng-template ngbSlide>\n    <div class=\"picsum-img-wrapper\">\n      <img [src]=\"images[0]\" alt=\"Random first slide\">\n    </div>\n    <div class=\"carousel-caption\">\n      <h3>First slide label</h3>\n      <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>\n    </div>\n  </ng-template>\n  <ng-template ngbSlide>\n    <div class=\"picsum-img-wrapper\">\n      <img [src]=\"images[1]\" alt=\"Random second slide\">\n    </div>\n    <div class=\"carousel-caption\">\n      <h3>Second slide label</h3>\n      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>\n    </div>\n  </ng-template>\n  <ng-template ngbSlide>\n    <div class=\"picsum-img-wrapper\">\n      <img [src]=\"images[2]\" alt=\"Random third slide\">\n    </div>\n    <div class=\"carousel-caption\">\n      <h3>Third slide label</h3>\n      <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>\n    </div>\n  </ng-template>\n</ngb-carousel>\n</router-outlet>");
+            /* harmony default export */ __webpack_exports__["default"] = ("<router-outlet></router-outlet>");
             /***/ 
         }),
         /***/ "./node_modules/tslib/tslib.es6.js": 

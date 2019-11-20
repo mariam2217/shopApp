@@ -5,9 +5,12 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { Routing } from './routing';
 import { AppComponent } from './components/app.component';
 
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+   
+  
   ],
   imports: [
     NgbModule,
