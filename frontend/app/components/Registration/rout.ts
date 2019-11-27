@@ -17,4 +17,8 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class Routing { }
+export class Routing {
+    navigate(arg0: string[]) {
+        throw new Error("Method not implemented.");
+    }
+}
