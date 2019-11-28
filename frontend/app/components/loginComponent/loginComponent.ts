@@ -1,15 +1,13 @@
-import{Component} from "@angular/core";
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService, AuthenticationService } from '../services';
-import {OnInit} from "@angular/core"
+// import { UserService, AuthenticationService } from '../services';
+import {OnInit} from '@angular/core';
 import { Routing } from './route';
 import { first } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  
-    templateUrl: './loginComponent.html',
-    
+  templateUrl: './loginComponent.html',
 })
 
 export class LoginComponent implements OnInit {
@@ -18,18 +16,18 @@ export class LoginComponent implements OnInit {
     submitted = false;
     returnUrl: string;
     error: string;
-    success: string
+    success: string;
 
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private authenticationService: AuthenticationService
+        // private authenticationService: AuthenticationService
     ) {
         // redirect to home if already logged in
-        if (this.authenticationService.currentUserValue) {
-            this.router.navigate(['/']);
-        }
+        // if (this.authenticationService.currentUserValue) {
+        //     this.router.navigate(['/']);
+        // }
     }
 
     ngOnInit() {
@@ -39,10 +37,10 @@ export class LoginComponent implements OnInit {
         });
 
         // get return url from route parameters or default to '/'
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
 
         // show success message on registration
-        if (this.route.snapshot.queryParams['registered']) {
+        if (this.route.snapshot.queryParams.registered) {
             this.success = 'Registration successful';
         }
     }
@@ -63,15 +61,15 @@ export class LoginComponent implements OnInit {
         }
 
         this.loading = true;
-        this.authenticationService.login(this.f.username.value, this.f.password.value)
-            .pipe(first())
-            .subscribe(
-                data => {
-                    this.router.navigate([this.returnUrl]);
-                },
-                error => {
-                    this.error = error;
-                    this.loading = false;
-                });
+        // this.authenticationService.login(this.f.username.value, this.f.password.value)
+        //     .pipe(first())
+        //     .subscribe(
+        //         data => {
+        //             this.router.navigate([this.returnUrl]);
+        //         },
+        //         error => {
+        //             this.error = error;
+        //             this.loading = false;
+        //         });
     }
 }

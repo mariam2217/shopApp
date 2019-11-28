@@ -1,16 +1,13 @@
-import{Component} from "@angular/core";
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService, AuthenticationService } from '../_services';
-import {OnInit} from "@angular/core"
+// import { UserService, AuthenticationService } from '../_services';
+import {OnInit} from '@angular/core';
 import { Routing } from './rout';
 import { first } from 'rxjs/operators';
 
 @Component({
-  
-    templateUrl: './registration.html',
-    
+  templateUrl: './registration.html',
 })
-
 
 export class Registration implements OnInit {
     registerForm: FormGroup;
@@ -21,13 +18,13 @@ export class Registration implements OnInit {
     constructor(
         private formBuilder: FormBuilder,
         private router: Routing,
-        private authenticationService: AuthenticationService,
-        private userService: UserService
+        // private authenticationService: AuthenticationService,
+        // private userService: UserService
     ) {
         // redirect to home if already logged in
-        if (this.authenticationService.currentUserValue) {
-            this.router.navigate(['/']);
-        }
+        // if (this.authenticationService.currentUserValue) {
+        //     this.router.navigate(['/']);
+        // }
     }
 
     ngOnInit() {
@@ -51,15 +48,15 @@ export class Registration implements OnInit {
         }
 
         this.loading = true;
-        this.userService.register(this.registerForm.value)
-            .pipe(first())
-            .subscribe(
-                data => {
-                 this.router.navigate(['/login'], { queryParams: { registered: true }});
-                },
-                error => {
-                    this.error = error;
-                    this.loading = false;
-                });
+        // this.userService.register(this.registerForm.value)
+        //     .pipe(first())
+        //     .subscribe(
+        //         data => {
+        //          this.router.navigate(['/login'], { queryParams: { registered: true }});
+        //         },
+        //         error => {
+        //             this.error = error;
+        //             this.loading = false;
+        //         });
     }
 }
