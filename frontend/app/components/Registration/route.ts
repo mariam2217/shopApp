@@ -1,24 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {Registration} from  './registration';
-
-
+import { RegistrationComponent } from './registration';
 
 const routes: Routes = [
     {
         path: '',
-        component: Registration,
-
+        component: RegistrationComponent,
     }
-
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class Routing {
-    navigate(arg0: string[]) {
-        throw new Error("Method not implemented.");
-    }
-}
+export class Routing {}

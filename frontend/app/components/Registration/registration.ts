@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // import { UserService, AuthenticationService } from '../_services';
 import {OnInit} from '@angular/core';
-import { Routing } from './rout';
 import { first } from 'rxjs/operators';
 
 @Component({
   templateUrl: './registration.html',
+  styleUrls: ['./registration.styl']
 })
 
-export class Registration implements OnInit {
+export class RegistrationComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
     submitted = false;
@@ -17,10 +17,10 @@ export class Registration implements OnInit {
 
     constructor(
         private formBuilder: FormBuilder,
-        private router: Routing,
         // private authenticationService: AuthenticationService,
         // private userService: UserService
     ) {
+      this.error = '';
         // redirect to home if already logged in
         // if (this.authenticationService.currentUserValue) {
         //     this.router.navigate(['/']);
@@ -37,7 +37,9 @@ export class Registration implements OnInit {
     }
 
     // convenience getter for easy access to form fields
-    get f() { return this.registerForm.controls; }
+    get f() {
+      return this.registerForm.controls;
+    }
 
     onSubmit() {
         this.submitted = true;
