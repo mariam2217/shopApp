@@ -1,4 +1,5 @@
 const { MongoClient } = require('mongodb');
+const nconf = require('nconf');
 
 class MongoConnector {
   static getInstance () {
@@ -14,14 +15,16 @@ class MongoConnector {
     return MongoConnector._instance;
   }
 
-  async  connect () {
-    new Promise((resolve, reject) => {
-      MongoClient.connect("mongodb://admin:pass@172.18.68.185:27001,172.18.68.185:27002/shop?replicaSet=rs&authSource=admin", (err, db) => {
+  async connect () {
+    return new Promise((resolve, reject) => {
+      console.log(nconf.get('mongo:uri'));
+      const client = new MongoClient (nconf.get('mongo:uri'), {useNewUrlParser: true, useUnifiedTopology: true});
+      client.connect((err) => {
         if (err) {
           reject(err);
         }
 
-        this._db = db;
+        this._db = client.db("shop");
 
         resolve();
       });

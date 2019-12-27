@@ -1,0 +1,10 @@
+{
+    "mongo": {
+        "uri": "mongodb://test:test@cluster0-shard-00-00-zdmql.mongodb.net:27017,cluster0-shard-00-01-zdmql.mongodb.net:27017,cluster0-shard-00-02-zdmql.mongodb.net:27017/test?ssl=true&retryWrites=true&w=majority&replicaSet=Cluster0-shard-0&authSource=admin"
+    },
+
+    "http" : {
+        "port": 80
+    }
+
+}

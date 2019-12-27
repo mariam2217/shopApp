@@ -2,7 +2,7 @@ const http = require('http');
 
 class Server {
   constructor() {
-    this.server = http.createServer(this._handler);
+    this.server = http.createServer((...args) => this._handler(...args));
   }
 
   _handler(req, res) {
@@ -19,4 +19,5 @@ class Server {
   }
 }
 
+module.exports = Server;
 
