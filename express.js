@@ -9,6 +9,8 @@ const JwtVerifier = require('./server/middlware/json-verifier');
 const Product = require('./server/routes/product.js');
 const Cart = require('./server/routes/cart.js');
 const ImageUpload = require('./server/routes/imageUpload.js')
+const Purchase = require('./server/routes/purchase.js')
+const Category = require('./server/routes/categories.js')
 
 const oldApp = express();
 
@@ -21,6 +23,8 @@ const auth = new Auth();
 const product = new Product();
 const cart = new Cart();
 const upload = new ImageUpload();
+const purchase = new Purchase();
+const category = new Category();
 
 
 
@@ -35,6 +39,8 @@ oldApp.use ( async (...args) => (new  JwtVerifier()).handler(...args));
 oldApp.use('/product', product.router);
 oldApp.use('/cart', cart.router);
 oldApp.use('/image', upload.router);
+oldApp.use('/purchase', purchase.router);
+oldApp.use('/category', category.router);
 
 
 

@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
     "@types/angular": "^1.6.57",
+    "accesscontrol": "^2.2.1",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "fastest-validator": "^0.6.19",

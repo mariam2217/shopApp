@@ -3,12 +3,12 @@ const Validator = require('fastest-validator');
 const mongoConnerctor = require('../db-connector');
 const {ObjectId} = require('mongodb');
 
-class Product {
+class Category {
     constructor() {
         const db = mongoConnerctor.getInstance();
         this._router = express.Router();
         this.validator = new Validator();
-        this.collection = db.db.collection('shopProducts');
+        this.collection = db.db.collection('categories');
         this.initHandler();
 
     }
@@ -40,13 +40,18 @@ class Product {
                         min: 10,
                     },
 
-                    price: {
-                        type: "number",
+                    created_at: {
+                        type: "date",
                         empty: false,
-                        positive: true,
-                        notEqual: 0,
 
                     },
+
+                    updated_at: {
+                        type: "date",
+                        empty: false,
+                    }
+
+                
                 }
             );
     
@@ -59,8 +64,6 @@ class Product {
             //let answer = answer.ops[0];
             res.json({result: data.ops[0]});
             
-            const count = await this.collection.count();
-            res.json({count});
             
 
 
@@ -79,7 +82,6 @@ class Product {
                 item,
                 {
                     name: {
-                        optional: true,
                         type: 'string',
                         empty: false,
                         min: 5
@@ -87,18 +89,9 @@ class Product {
                     },
     
                     description: {
-                        optional: true,
                         type: 'string',
                         empty: false,
                         min: 10,
-                    },
-
-                    price: {
-                        optional: true,
-                        type: "number",
-                        empty: false,
-                        positive: true,
-                        notEqual: 0,
                     },
 
                     created_at: {
@@ -111,50 +104,42 @@ class Product {
                         type: "date",
                         empty: false,
                     }
-                }  
+
+                
+                }
             );
 
             if (validationResult !== true) {
                 return res.json(validationResult);
             };
 
-            const answer = await this.collection.updateOne({_id: ObjectId(id)}, {$set: item});
-            res.json({result: "success"});
+            let answer = await this.collection.updateOne({_id: ObjectId(id)}, {$set: item});
 
-            const count = await this.collection.count();
-            res.json({count});
+            res.json({result: "success"});
     }
 
     async get(req, res, next) {
-        const productId  = req.params.id;
-        if(!ObjectId.isValid(productId)) {
+        const categoryId  = req.params.id;
+        if(!ObjectId.isValid(categoryId)) {
             return next(new Error('ID is not valid'));
          }
-        const product = await this.collection.findOne({_id: ObjectId(productId)});
-        if (!product) {
+        const category = await this.collection.findOne({_id: ObjectId(categoryId)});
+        if (!category) {
             return res.json({error: "Product not found!"})
         }
-        res.json({product});
-
-        const count = await this.collection.count();
-        res.json({count});
+        res.json({category});
     }
 
     async delete(req, res, next) {
-        const productId  = req.params.id;
-        if(!ObjectId.isValid(productId)) {
+        const categoryId  = req.params.id;
+        if(!ObjectId.isValid(categoryId)) {
             return next(new Error('ID is not valid'));
          }
-        const product = await this.collection.deleteOne({_id: ObjectId(productId)});
-        if (!product) {
+        const category = await this.collection.deleteOne({_id: ObjectId(categoryId)});
+        if (!category) {
             return res.json({error: "Product not found!"})
         }
         res.json({result: "Deleted!"});
-
-        const count = await this.collection.count();
-        res.json({count});
-
-
     }
 
     async list(req, res) {
@@ -181,8 +166,8 @@ class Product {
                     return res.json(validationResult);
                 };
         
-        const productArr = await this.collection.find({}).limit(parseInt(limit)).skip(parseInt(skip)).toArray();
-        res.json({products: productArr});
+        const categoryArr = await this.collection.find({}).limit(parseInt(limit)).skip(parseInt(skip)).toArray();
+        res.json({categories: categoryArr});
 
 
     }
@@ -192,4 +177,4 @@ class Product {
     
 }
 
-module.exports = Product;
+module.exports = Category;

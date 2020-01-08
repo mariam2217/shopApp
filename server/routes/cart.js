@@ -4,7 +4,6 @@ const mongoConnerctor = require('../db-connector');
 const {ObjectId} = require('mongodb');
 
 
-
 class Cart {
     constructor() {
         const db = mongoConnerctor.getInstance();
@@ -34,7 +33,10 @@ class Cart {
             {returnNewDocument: true, upsert: true},
             );
                 //let answer = answer.ops[0];
-                res.json({result: data.value});
+        res.json({result: data.value});
+
+        const count = await this.collection.count();
+        res.json({count});
     }
 
     async get(req, res, next) {
@@ -50,6 +52,9 @@ class Cart {
             return res.json({error: "Product not found!"})
         }
         res.json({product});
+
+        const count = await this.collection.count();
+         res.json({count});
     }
 
     async delete(req, res, next) {
@@ -69,8 +74,8 @@ class Cart {
         }
          res.json(data.value);
 
-
-
+        const count = await this.collection.count();
+         res.json({count});
 
     }
 

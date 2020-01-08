@@ -2,6 +2,7 @@ const express = require('express');
 const Validator = require('fastest-validator');
 const mongoConnerctor = require('../db-connector');
 const jwt = require('jsonwebtoken');
+const rolePermissions = require('../routes/roles')
 
 class Auth {
     constructor() {
@@ -26,8 +27,10 @@ class Auth {
                 {
                     login: {
                         type: "email",
-                    },
+                        empty: false,
 
+                    },
+                    
                     fullName: {
                         type: 'string',
                         empty: false,
@@ -39,7 +42,8 @@ class Auth {
                         type: 'string',
                         empty: false,
                         min: 5,
-                    }
+                    },
+
                 }
             );
     
@@ -61,8 +65,7 @@ class Auth {
             res.end(error.message);
         }
 
-        
-
+    
     }
 
     async signin(req, res, next) {
@@ -74,6 +77,7 @@ class Auth {
         if (user.password !== req.body.password) {
             return res.json({error: "Password is wrong!"})
         }
+
 
     
 
