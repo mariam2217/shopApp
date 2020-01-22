@@ -39,25 +39,16 @@ class Category {
                         empty: false,
                         min: 10,
                     },
-
-                    created_at: {
-                        type: "date",
-                        empty: false,
-
-                    },
-
-                    updated_at: {
-                        type: "date",
-                        empty: false,
-                    }
-
-                
+              
                 }
             );
     
             if (validationResult !== true) {
                 return res.json(validationResult);
             }
+
+            item.created_at = Date.now();
+            item.updated_at = Date.now();
 
 
             const data = await this.collection.insertOne(item);

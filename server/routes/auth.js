@@ -2,7 +2,7 @@ const express = require('express');
 const Validator = require('fastest-validator');
 const mongoConnerctor = require('../db-connector');
 const jwt = require('jsonwebtoken');
-const rolePermissions = require('../routes/roles')
+
 
 class Auth {
     constructor() {
@@ -44,6 +44,7 @@ class Auth {
                         min: 5,
                     },
 
+
                 }
             );
     
@@ -81,7 +82,7 @@ class Auth {
 
     
 
-    const token = jwt.sign({id: user._id}, 'password', {expiresIn: 60*60});
+    const token = jwt.sign({id: user._id}, 'password', {expiresIn: 60*60*24});
     res.json({token});
             
     }

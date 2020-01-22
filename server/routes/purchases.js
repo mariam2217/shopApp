@@ -24,10 +24,6 @@ class Purchase {
             const validationResult = this.validator.validate(
                 item,
                 {
-                    created_at: {
-                        type: "date",
-                        empty: false,
-                    },
                     
                     currentPurchaseCount: {
                         type: "number",
@@ -44,6 +40,8 @@ class Purchase {
                 return res.json(validationResult);
             }
 
+            item.created_at = Date.now();
+           
             const id = req.params.id;
             if(!ObjectId.isValid(id)) {
             return next(new Error('ID is not valid'));
@@ -78,9 +76,6 @@ class Purchase {
             return res.json({error: "Purchase not found!"})
         }
         res.json({purchase});
-
-        const count = await this.collection.count();
-        res.json({count});
     }
 
     get router() {

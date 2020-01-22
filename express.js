@@ -9,8 +9,13 @@ const JwtVerifier = require('./server/middlware/json-verifier');
 const Product = require('./server/routes/product.js');
 const Cart = require('./server/routes/cart.js');
 const ImageUpload = require('./server/routes/imageUpload.js')
-const Purchase = require('./server/routes/purchase.js')
+const Purchase = require('./server/routes/purchases.js')
 const Category = require('./server/routes/categories.js')
+const Roles = require('./server/routes/role.js')
+const Actions = require('./server/routes/action.js')
+const RoleAction = require('./server/routes/role-action.js')
+const UserRole = require('./server/routes/user-role.js')
+const AccessControl = require('./server/middlware/access-control')
 
 const oldApp = express();
 
@@ -25,6 +30,11 @@ const cart = new Cart();
 const upload = new ImageUpload();
 const purchase = new Purchase();
 const category = new Category();
+const role = new Roles();
+const action = new Actions();
+const roleAction = new RoleAction();
+const userRole = new UserRole();
+
 
 
 
@@ -35,12 +45,17 @@ oldApp.use('/auth', auth.router);
 //});
 
 oldApp.use ( async (...args) => (new  JwtVerifier()).handler(...args));
+oldApp.use ( async (...args) => (new  AccessControl()).handler(...args));
 
 oldApp.use('/product', product.router);
 oldApp.use('/cart', cart.router);
 oldApp.use('/image', upload.router);
 oldApp.use('/purchase', purchase.router);
 oldApp.use('/category', category.router);
+oldApp.use('/role', role.router);
+oldApp.use('/action', action.router);
+oldApp.use('/roleAction', roleAction.router);
+oldApp.use('/userRole', userRole.router);
 
 
 

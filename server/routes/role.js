@@ -2,15 +2,13 @@ const express = require('express');
 const Validator = require('fastest-validator');
 const mongoConnerctor = require('../db-connector');
 const {ObjectId} = require('mongodb');
-const redis = require('../redis').getInstance();
 
-
-class Product {
+class Roles {
     constructor() {
         const db = mongoConnerctor.getInstance();
         this._router = express.Router();
         this.validator = new Validator();
-        this.collection = db.db.collection('shopProducts');
+        this.collection = db.db.collection('roles');
         this.initHandler();
 
     }
@@ -31,24 +29,15 @@ class Product {
                 {
                     name: {
                         type: 'string',
-                        empty: false,
-                        min: 5
-                        
+                        empty: false,                        
                     },
     
-                    description: {
+                    describtion: {
                         type: 'string',
                         empty: false,
                         min: 10,
                     },
-
-                    price: {
-                        type: "number",
-                        empty: false,
-                        positive: true,
-                        notEqual: 0,
-
-                    },
+                
                 }
             );
     
@@ -64,8 +53,6 @@ class Product {
             //let answer = answer.ops[0];
             res.json({result: data.ops[0]});
             
-            const count = await this.collection.count();
-            res.json({count});
             
 
 
@@ -79,85 +66,55 @@ class Product {
         if(!ObjectId.isValid(id)) {
            return next(new Error('ID is not valid'));
         }
-
-        const productRedisKey = `product:${id}`;
             const item = req.body;
             const validationResult = this.validator.validate(
                 item,
                 {
                     name: {
-                        optional: true,
                         type: 'string',
                         empty: false,
-                        min: 5
                         
                     },
     
                     description: {
-                        optional: true,
                         type: 'string',
                         empty: false,
                         min: 10,
-                    },
-
-                    price: {
-                        optional: true,
-                        type: "number",
-                        empty: false,
-                        positive: true,
-                        notEqual: 0,
-                    },
-                }  
+                    },            
+                }
             );
 
             if (validationResult !== true) {
                 return res.json(validationResult);
             };
 
-            item.updated_at = Date.now();
+            let answer = await this.collection.updateOne({_id: ObjectId(id)}, {$set: item});
 
-            const answer = await this.collection.updateOne({_id: ObjectId(id)}, {$set: item});
-            await redis.remove(productRedisKey);
             res.json({result: "success"});
-
     }
 
     async get(req, res, next) {
-        const productId  = req.params.id;
-        if(!ObjectId.isValid(productId)) {
+        const roleId  = req.params.id;
+        if(!ObjectId.isValid(roleId)) {
             return next(new Error('ID is not valid'));
          }
-        const productRedisKey = `product:${productId}`;
-        const cache = await redis.get(productRedisKey);
-        if (cache){
-            console.log("aaa");
-            return res.json({product: cache});
+        const role = await this.collection.findOne({_id: ObjectId(roleId)});
+        if (!role) {
+            return res.json({error: "Role not found!"})
         }
-        
-
-        const product = await this.collection.findOne({_id: ObjectId(productId)});
-        if (!product) {
-            return res.json({error: "Product not found!"})
-        } 
-        await redis.set(productRedisKey, product)
-        res.json({product});
+        res.json({role});
     }
 
     async delete(req, res, next) {
-        const productId  = req.params.id;
-        const productRedisKey = `product:${productId}`;
-        if(!ObjectId.isValid(productId)) {
+        const roleId  = req.params.id;
+        if(!ObjectId.isValid(roleId)) {
             return next(new Error('ID is not valid'));
          }
-        const product = await this.collection.deleteOne({_id: ObjectId(productId)});
-        if (!product) {
-            return res.json({error: "Product not found!"})
+        const role = await this.collection.deleteOne({_id: ObjectId(roleId)});
+        if (!role) {
+            return res.json({error: "Role not found!"})
         }
-
-        await redis.remove(productRedisKey);
         res.json({result: "Deleted!"});
-
-
     }
 
     async list(req, res) {
@@ -184,8 +141,8 @@ class Product {
                     return res.json(validationResult);
                 };
         
-        const productArr = await this.collection.find({}).limit(parseInt(limit)).skip(parseInt(skip)).toArray();
-        res.json({products: productArr});
+        const roleArr = await this.collection.find({}).limit(parseInt(limit)).skip(parseInt(skip)).toArray();
+        res.json({roles: roleArr});
 
 
     }
@@ -195,4 +152,4 @@ class Product {
     
 }
 
-module.exports = Product;
+module.exports = Roles;
