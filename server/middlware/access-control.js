@@ -36,4 +36,4 @@ class AccsessControl {
     }
 }
 
-module.exports  = AccsessControl;
+module.exports = AccsessControl;
