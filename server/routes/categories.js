@@ -128,7 +128,7 @@ class Category {
          }
         const category = await this.collection.deleteOne({_id: ObjectId(categoryId)});
         if (!category) {
-            return res.json({error: "Product not found!"})
+            return res.json({error: "Category not found!"})
         }
         res.json({result: "Deleted!"});
     }
