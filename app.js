@@ -1,33 +1,35 @@
-const createError = require('http-errors');
-const express = require('express');
+const MongoConnector = require('./server/db-connector');
+const Server = require('./server/server');
+const nconf = require('nconf');
 const path = require('path');
-const logger = require('morgan');
+const Redis = require('./server/redis')
+const Socket = require('./server/io')
+var schedule = require('node-schedule');
+ 
 
-const indexRouter = require('./routes/index');
 
-const app = express();
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+nconf.file({
+  file: path.join(__dirname, 'nconf', 'local.json')
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+(async function run(){
+  const db = MongoConnector.getInstance();
+  await db.connect();
+  const redis = Redis.getInstance();
+  await redis.auth();
+  const application = require('./express');
+  const server = new Server();
+  server.application = application;
+  const socket = Socket.getInstance(server.server);
+  //setInterval(() => {
+   // socket.send('name', 10);
+  //}, 10000)
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+  var j = schedule.scheduleJob('0 53 * * * *', function(){
+    socket.send('name', 10);
+  });
+  server.listen(nconf.get('http:port'));
+})()
 
-module.exports = app;
